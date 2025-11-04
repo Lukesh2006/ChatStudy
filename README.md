@@ -72,9 +72,58 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
+## Program:
+### client:
+```python
+import socket
+client_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+client_socket.connect(("localhost",12345))
+print("Connected to the server. type 'exit' to quit.")
 
+while True:
+  message = input("Client: ")
+  client_socket.send(message.encode())
+
+
+  if message.lower() == "exit":
+      break
+
+  response  = client_socket.recv(1024).decode()
+  print(f"Server: {response}")
+client_socket.close()
+
+```
+### server:
+```python
+import socket
+server_socket = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+server_socket.bind(("localhost",12345))
+server_socket.listen(1)
+print("Server is listening on port 12345...")
+
+conn,addr = server_socket.accept()
+print(f"Connection established with {addr}")
+
+while True:
+    data = conn.recv(1024).decode()
+    if not data or data.lower() == "exit":
+        print("client disconnected.")
+        break
+    print(f"Client: {data}")
+    response = input("Server: ")
+    conn.send(response.encode())
+conn.close()
+server_socket.close()
+
+```
+## output:
+### client:
+<img width="1051" height="342" alt="cli2" src="https://github.com/user-attachments/assets/cc42763e-0cb0-4470-a431-c33594be8114" />
+### server:
+<img width="1003" height="347" alt="ser2" src="https://github.com/user-attachments/assets/aeb50bd1-e38e-45dc-a96e-a9b9652563dc" />
 
 ## Result:
-
+```
 Thus the study on Client Server Chat Applications has been performed
+```
 
